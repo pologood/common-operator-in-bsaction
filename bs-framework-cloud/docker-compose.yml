@@ -1,0 +1,27 @@
+version: '2'
+services:
+  eureka:
+    image: gomerepo.io:5000/overseas/bs-server-discovery
+
+  config:
+    image: gomerepo.io:5000/overseas/bs-server-config
+
+  zipkin:
+    image: gomerepo.io:5000/overseas/bs-cloud-zipkin
+
+  gateway:
+    image: gomerepo.io:5000/overseas/bs-service-gateway
+
+  turbine:
+    image: gomerepo.io:5000/overseas/bs-cloud-turbine-dashboard
+
+
+  admin:
+    image: gomerepo.io:5000/overseas/bs-cloud-admin
+
+  comx:
+    image: gomerepo.io:5000/overseas/bs-service-comx
+
+
+
+

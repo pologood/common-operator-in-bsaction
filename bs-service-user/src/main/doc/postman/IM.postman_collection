@@ -1,0 +1,73 @@
+{
+	"id": "343e980c-7b9e-38f5-fcca-f29cf84621e1",
+	"name": "IM模块",
+	"description": "",
+	"order": [
+		"c2296f54-7cc4-97d0-807e-75f94034b6ac",
+		"f574bdfe-94f9-8b87-efc6-d4af10678333",
+		"fdbccd45-bfa0-a944-f8f6-0afe374508bf"
+	],
+	"folders": [],
+	"timestamp": 1487313610046,
+	"owner": "1177116",
+	"public": false,
+	"requests": [
+		{
+			"id": "c2296f54-7cc4-97d0-807e-75f94034b6ac",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://10.125.196.111:9006/user/contacts",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "tests[\"Contacts response Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487321468306,
+			"name": "获取通讯录用户信息接口",
+			"description": "",
+			"collectionId": "343e980c-7b9e-38f5-fcca-f29cf84621e1",
+			"responses": [],
+			"rawModeData": "\n{\n\t\n\t\"contacts\":[\n\t\t{\n\t\t\t\"countryCode\":\"+91\",\n\t\t\t\"mobile\":\"90876456789\",\n\t\t\t\"name\":\"aaa\"\n\t\t},\n\t\t{\n\t\t\t\"countryCode\":\"+91\",\n\t\t\t\"mobile\":\"90876456780\",\n\t\t\t\"name\":\"bbb\"\n\t\t},{\n\t\t\t\"countryCode\":\"+91\",\n\t\t\t\"mobile\":\"90876456788\",\n\t\t\t\"name\":\"ccc\"\n\t\t}\n\t\t\n\t\t]\n\t\n}"
+		},
+		{
+			"id": "f574bdfe-94f9-8b87-efc6-d4af10678333",
+			"headers": "",
+			"url": "http://10.125.196.111:9006/user/im?userId=12",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"User not exist,then response Status code is 404\"] = responseCode.code === 404;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487321463824,
+			"name": "获取imtoken用户不存在测试",
+			"description": "",
+			"collectionId": "343e980c-7b9e-38f5-fcca-f29cf84621e1",
+			"responses": []
+		},
+		{
+			"id": "fdbccd45-bfa0-a944-f8f6-0afe374508bf",
+			"headers": "",
+			"url": "http://10.125.196.111:9006/user/im?userId=17024790187",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"response Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487321475200,
+			"name": "成功获取imToken",
+			"description": "",
+			"collectionId": "343e980c-7b9e-38f5-fcca-f29cf84621e1",
+			"responses": []
+		}
+	]
+}

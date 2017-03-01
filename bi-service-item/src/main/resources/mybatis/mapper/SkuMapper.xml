@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Sku">
+	<resultMap id="SkuMap" type="Sku">
+        <id column="id" property="id"/>
+        <result column="outer_id" property="outerId"/>
+        <result column="item_id" property="itemId"/>
+        <result column="name" property="name"/>
+        <result column="source" property="source"/>
+        <result column="image" property="image"/>
+ 		<result column="origin_price" property="originPrice"/>
+        <result column="selling_price" property="sellingPrice"/>
+        <result column="currency_unit" property="currencyUnit"/>
+        <result column="creator" property="creator"/>
+        <result column="updater" property="updater"/>
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+    
+    <sql id="tb">
+        ovc_skus
+    </sql>
+    <sql id="cols_all">
+        id, <include refid="cols_exclude_id" />
+    </sql>
+    <sql id="cols_exclude_id">
+        outer_id, item_id, name, image, origin_price, selling_price, currency_unit, source,
+        creator, updater, created_at, updated_at
+    </sql>
+    <sql id="vals">
+        #{outerId}, #{itemId}, #{name}, #{image}, #{originPrice}, #{sellingPrice}, 
+        #{currencyUnit}, #{source}, #{creator}, #{updater}
+    </sql>
+	
+	<select id="load" parameterType="long" resultMap="SkuMap" >
+        SELECT id, <include refid="cols_exclude_id"/> 
+        FROM <include refid="tb"/> 
+        WHERE id = #{id} LIMIT 1
+    </select>
+    
+    <select id="findByCriteria" parameterType="map" resultMap="SkuMap" >
+        SELECT <include refid="cols_all" />
+        FROM <include refid="tb" />
+       	WHERE item_id = #{itemId} 
+       	AND outer_id = #{outerId} 
+       	AND source  = #{source }
+       	LIMIT 1
+    </select>
+    
+    <insert id="create" parameterType="Sku" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO
+        <include refid="tb" />
+        (<include refid="cols_exclude_id" />)
+        VALUES
+        (<include refid="vals" />, now(), now())   
+    </insert>
+    
+    <update id="update" parameterType="Sku">
+        UPDATE <include refid="tb"/>
+        <set>
+            <if test="outerId != null"> outer_id = #{outerId}, </if>
+            <if test="itemId != null"> item_id = #{itemId}, </if>
+            <if test="name != null"> name = #{name}, </if>
+            <if test="image != null"> image = #{image}, </if>
+            <if test="originPrice != null"> origin_price = #{originPrice}, </if>
+            <if test="sellingPrice != null"> selling_price = #{sellingPrice}, </if>
+            <if test="currencyUnit != null"> currency_unit = #{currencyUnit}, </if>
+            <if test="source != null"> source = #{source}, </if>
+            <if test="creator != null"> creator = #{creator}, </if>
+            <if test="updater != null"> updater = #{updater}, </if>
+            updated_at = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

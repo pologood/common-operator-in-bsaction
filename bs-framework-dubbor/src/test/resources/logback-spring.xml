@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <jmxConfigurator/>
+
+    <property name="FILE_LOG_PATTERN" value="## [%X{logSessionId}] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [${LOG_LEVEL_PATTERN:-%5p}] [%thread] [%logger{50}] : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="CONSOLE_LOG_PATTERN" value="## [%X{logSessionId}] -%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} [%clr(${LOG_LEVEL_PATTERN:-%5p})] [%thread]  %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/${APP_NAME}/${APP_NAME}.log</file>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ROOT}/${APP_NAME}/${APP_NAME}-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>30MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${LEVEL}</level>
+        </filter>
+    </appender>
+
+    <logger name="com.gomeplus.bs" level="DEBUG"/>
+    <logger name="de.codecentric.boot.admin" level="INFO"/>
+    <logger name="org.springframework" level="INFO" />
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+        <!--<appender-ref ref="FILE" />-->
+    </root>
+
+</configuration>

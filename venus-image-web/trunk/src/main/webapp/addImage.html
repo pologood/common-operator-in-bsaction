@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>多文件上传demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">    
+</head>
+
+<body>
+<div style="width:100%;height:100%;">
+	<div data-options="region:'north'" style="font-size:25px;height:40px;padding:5px 0 0 5px">
+		<span style="font:20"><strong>多文件上传样例</strong></span>
+	</div>
+	<div data-options="region:'center',title:'多文件上传'">			
+		<form id="subForm" name="form1" enctype="multipart/form-data" method="post" action="ul/upload_img.json">
+			<div id="filesDiv" style="font-size:18px;margin:10px 0 10px 10px">
+				imageArray:<input type="file" name="imageArray" /><br>
+				imageArray:<input type="file" name="imageArray" /><br>				
+
+				size:<input type="text" name="size" value="0"/><br>
+				userId:<input id="userId" name="userId" value="12345678" /><br>
+				clientOs:<input id="clientOs" name="clientOs" value="1" /><br>
+				clientOsVersion:<input id="clientOsVersion" name="clientOsVersion" value="4.3" /><br>
+				appType:<input id="appType" name="appType" value="1" /><br>
+				appVersion:<input id="appVersion" name="appVersion" value="1.0" /><br>
+				phoneType:<input id="phoneType" name="phoneType" value="三星GALAXY Note4" /><br>
+				ip:<input id="ip" name="ip" value="192.12.33.22" /><br>
+				mac:<input id="mac" name="mac" value="ac as 23 3d" /><br>
+				netType:<input id="netType" name="netType" value="4G" /><br>
+				devId:<input id="devId" name="devId" value="IPhone1234567890" /><br>
+				otherDevInfo:<input id="otherDevInfo" name="otherDevInfo" value="someInfo" /><br>
+			</div>
+			<div style="padding:0 0 0 10px">
+				<input type="submit" />
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

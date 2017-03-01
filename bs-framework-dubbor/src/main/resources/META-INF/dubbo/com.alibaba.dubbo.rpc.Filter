@@ -1,0 +1,2 @@
+logSessionConsumer=com.gomeplus.bs.framework.dubbor.log.LogSessionConsumerDubboFilter
+logSessionProvider=com.gomeplus.bs.framework.dubbor.log.LogSessionProviderDubboFilter

@@ -1,0 +1,42 @@
+spring:
+  application:
+    name : bs-service-user-abc
+  profiles:
+      active: dev
+  cloud:
+    config:
+      name: bs-service-user
+      failFast: true
+      discovery:
+        enabled: true
+        serviceId: bs-server-config
+
+---
+spring:
+  profiles: dev
+
+
+server:
+  port : 8080
+
+        
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://10.125.196.111:9001/eureka/
+---
+spring:
+  profiles: docker
+
+
+server:
+  port : ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}

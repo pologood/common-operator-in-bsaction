@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "id": "http://jsonSchema.gomeplus.com/name"
+    },
+    "age": {
+      "type": "integer",
+      "id": "http://jsonSchema.gomeplus.com/age"
+    }
+  },
+  "id": "http://jsonSchema.gomeplus.com",
+  "required": [
+    "name",
+    "age"
+  ]
+}

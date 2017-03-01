@@ -1,0 +1,73 @@
+version: '2'
+services:
+  eureka:
+    image: gomerepo.io:5000/overseas/bs-server-discovery
+    ports:
+      - "9001:9001"
+    environment:
+      SERVICE_HOST: localhost
+      SERVICE_PORT: 9001
+
+  config:
+    image: gomerepo.io:5000/overseas/bs-server-config
+    ports:
+      - "9000:9000"
+    environment:
+      SERVICE_PORT: 9000
+      REGISTRY_URL: http://${REGISTRY_IP}:9001/eureka
+      HOST_IP: ${REGISTRY_IP}
+      GIT_URI: ${GIT_URI}
+
+
+  zipkin:
+    image: gomerepo.io:5000/overseas/bs-cloud-zipkin
+    ports:
+      - "9012:9012"
+    environment:
+      SERVICE_PORT: 9012
+      REGISTRY_URL: http://${REGISTRY_IP}:9001/eureka
+
+  gateway:
+    image: gomerepo.io:5000/overseas/bs-service-gateway
+    ports:
+      - "9006:9006"
+    environment:
+      SERVICE_PORT: 9006
+      REGISTRY_URL: http://${REGISTRY_IP}:9001/eureka
+
+  turbine:
+    image: gomerepo.io:5000/overseas/bs-cloud-turbine-dashboard
+    ports:
+      - "9010:9010"
+    environment:
+      SERVICE_PORT: 9010
+      REGISTRY_URL: http://${REGISTRY_IP}:9001/eureka
+
+  admin:
+    image: gomerepo.io:5000/overseas/bs-cloud-admin
+    ports:
+      - "9003:9003"
+    links:
+      - turbine:turbine
+      - eureka:discovery
+    environment:
+      SERVICE_PORT: 9003
+      REGISTRY_URL: http://${REGISTRY_IP}:9001/eureka
+      TURBINE_URL: http://${REGISTRY_IP}:9010/turbine.stream
+
+
+  comx:
+    image: gomerepo.io:5000/overseas/bs-service-comx
+    ports:
+      - "9019:9019"
+    environment:
+      SERVICE_PORT: 9019
+      REGISTRY_URL: http://${REGISTRY_IP}:9001/eureka
+    volumes:
+        - "/gomeo2o:/gomeo2o"
+
+networks:
+  default:
+      external:
+          name: gome-network
+

@@ -1,0 +1,107 @@
+version: '2'
+services:
+  bs-service-system:
+    image: gomerepo.io:5000/overseas/bs-service-system
+    ports:
+      - "9020:9020"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9020
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  
+  bs-service-user:
+    image: gomerepo.io:5000/overseas/bs-service-user
+    ports:
+      - "9021:9021"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9021
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+ 
+  bi-service-spider:
+    image: gomerepo.io:5000/overseas/bi-service-spider
+    ports:
+      - "9022:9022"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9022
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bi-service-item:
+    image: gomerepo.io:5000/overseas/bi-service-item
+    ports:
+      - "9023:9023"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9023  
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bi-service-search:
+    image: gomerepo.io:5000/overseas/bi-service-search
+    ports:
+      - "9024:9024"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9024
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bi-search:
+    image: gomerepo.io:5000/overseas/bi-search
+    ports:
+      - "9025:9025"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9025 
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bi-service-recom-server:
+    image: gomerepo.io:5000/overseas/bi-service-recom-server
+    ports:
+      - "9026:9026"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9026
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bs-admin-web:
+    image: gomerepo.io:5000/overseas/bs-admin-web
+    ports:
+      - "9027:9027"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9027
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bs-service-permission:
+    image: gomerepo.io:5000/overseas/bs-service-permission
+    ports:
+      - "9028:9028"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9028
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+
+  bs-service-userid-generator:
+    image: gomerepo.io:5000/overseas/bs-service-userid-generator
+    ports:
+      - "9029:9029"
+    environment:
+      REGISTRY_URL: http://10.125.196.111:9001/eureka
+      SERVICE_PORT: 9029
+    volumes:
+      - /gomeo2o/logs:/gomeo2o/logs
+ 
+networks:
+  default:
+      external:
+          name: mynet

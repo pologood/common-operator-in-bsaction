@@ -1,0 +1,56 @@
+spring:
+  application:
+    name : bs-api-gateway
+  profiles:
+        active: dev
+  cloud:
+      config:
+        name: bs-api-gateway
+        failFast: true
+        discovery:
+          enabled: true
+          serviceId: bs-server-config
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+ribbon:
+  ConnectTimeout: 5000
+  ReadTimeout: 5000
+
+---
+
+spring:
+  profiles: dev
+
+server:
+  port : 9006
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9001/eureka/
+
+
+---
+
+spring:
+  profiles: docker
+
+server:
+  port : ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}
+
+

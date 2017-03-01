@@ -1,0 +1,37 @@
+{
+    "module": "item.admin.ovc",
+    "name":"商品",
+    "order": 1,
+    "type":1,
+    "version":"0.1",
+    "menus": [
+        {
+            "name": "商品管理",
+            "children": [
+				{
+				    "name": "flipcart类目映射管理",
+				    "actionKeys": [
+				        "category-bindings-add",
+				        "category-bindings-delete"
+				    ],
+				    "uri": "/item/outerCategory.html"
+				}
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "name": "flipcart类目映射管理",
+            "actions": [
+                {
+                    "key": "category-bindings-add",
+                    "name": "绑定类目"
+                },
+                {
+                    "key": "category-bindings-delete",
+                    "name": "删除绑定关系"
+                }
+            ]
+        }
+    ]
+}

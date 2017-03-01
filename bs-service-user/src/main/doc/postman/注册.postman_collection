@@ -1,0 +1,51 @@
+{
+	"id": "99703636-7ebb-2cdd-cc02-825685069652",
+	"name": "注册",
+	"description": "",
+	"order": [
+		"5daae317-f86d-6017-a7ac-4b03eefeed69",
+		"93b8880e-8032-0127-3ab9-a273cd925dcf"
+	],
+	"folders": [],
+	"timestamp": 1487156821484,
+	"owner": "437495",
+	"public": false,
+	"requests": [
+		{
+			"id": "5daae317-f86d-6017-a7ac-4b03eefeed69",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://10.125.196.111:9006/user/user",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487157397141,
+			"name": "1.验证手机号是否为空",
+			"description": "",
+			"collectionId": "99703636-7ebb-2cdd-cc02-825685069652",
+			"rawModeData": "{\n    \"countryCode\": \"+86\",\n    \"mobile\": \"\",\n    \"password\": \"123456\",\n    \"confirmedPassword\": \"123456\",\n    \"smsCode\": \"123456\",\n    \"refereeUserId\": \"1\",\n    \"smsToken\": \"acascasddsdas\"\n}\n\n"
+		},
+		{
+			"id": "93b8880e-8032-0127-3ab9-a273cd925dcf",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://10.125.196.111:9006/user/user",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487157395200,
+			"name": "2.验证密码是否为空",
+			"description": "",
+			"collectionId": "99703636-7ebb-2cdd-cc02-825685069652",
+			"rawModeData": "{\n    \"countryCode\": \"+86\",\n    \"mobile\": \"18611193415\",\n    \"password\": \"\",\n    \"confirmedPassword\": \"\",\n    \"smsCode\": \"123456\",\n    \"refereeUserId\": \"1\",\n    \"smsToken\": \"acascasddsdas\"\n}\n\n"
+		}
+	]
+}

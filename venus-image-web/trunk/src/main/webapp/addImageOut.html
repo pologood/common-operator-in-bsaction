@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>多文件上传demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">    
+<script type="text/javascript" src="js/md5.js"></script>
+</head>
+
+<body>
+<div style="width:100%;height:100%;">
+	<div data-options="region:'north'" style="font-size:25px;height:40px;padding:5px 0 0 5px">
+		<span style="font:20"><strong>多文件上传样例</strong></span>
+	</div>
+	<div data-options="region:'center',title:'多文件上传'">			
+		<form id="subForm" name="form1" enctype="multipart/form-data" method="post" action="ul/upload.json">
+			<div id="filesDiv" style="font-size:18px;margin:10px 0 10px 10px">
+				imageArray:<input type="file" name="imageArray" /><br>
+				imageArray:<input type="file" name="imageArray" /><br>				
+
+				currentTime:<input id="cTime" name="currentTime" value="1487991348086"/><br>
+				secretKey:<input id="secretKey" name="secretKey" value="2f1cce8f493d5dbccf63410dabfc442c" /><br>
+			</div>
+			<div style="padding:0 0 0 10px">
+				<input type="submit" />
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	var currentTime = document.getElementById('cTime');
+	var timeNow = new Date().getTime();
+	currentTime.setAttribute('value',timeNow);
+	var secretKey = document.getElementById("secretKey");
+	var str = "chaizhilei"+timeNow;
+	secretKey.setAttribute('value',hex_md5(str));
+</script>
+</body>
+</html>

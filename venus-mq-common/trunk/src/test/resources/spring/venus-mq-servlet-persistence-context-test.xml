@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2014 杭州端点网络科技有限公司
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx  
+    	http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd">
+        
+    <!--  <context:component-scan base-package="io.terminus.ecp.config.event"/>
+    <context:component-scan base-package="io.terminus.ecp.config.center"/>-->
+    <tx:annotation-driven/>
+    <context:property-placeholder location="classpath:app.properties" />
+    <rabbit:connection-factory id="connectionFactory"  
+    	host="${rabbit.host}" port="${rabbit.port}" virtual-host="${rabbit.vhost}" username="${rabbit.username}" password="${rabbit.password}"/>
+
+	<rabbit:template id="amqpTemplate" connection-factory="connectionFactory"
+		exchange="rabbitExchange" />
+
+	<rabbit:admin id="containerAdmin" connection-factory="connectionFactory" />
+
+	<rabbit:queue name="search.user" durable="true" />
+	<rabbit:queue name="bs.arch" durable="true"/>
+	<rabbit:queue name="bs.user" durable="true"/>
+	<rabbit:queue name="bs.shop" durable="true"/>
+	<rabbit:queue name="bs.social" durable="true"/>
+	<rabbit:queue name="bs.item" durable="true"/>
+
+	<rabbit:topic-exchange name="msg.topic" durable="true">
+	</rabbit:topic-exchange>
+
+    <bean class="cn.com.mx.webapi.mq.SendMqProducer"></bean>
+    <bean class="cn.com.mx.webapi.mq.SpringRabbitMqReceiver"></bean>
+    <bean class="cn.com.mx.webapi.mq.SpringRabbitMqSender"></bean>
+    <bean class="cn.com.mx.webapi.mq.ReceiveMqConsumer"></bean>
+    
+</beans>

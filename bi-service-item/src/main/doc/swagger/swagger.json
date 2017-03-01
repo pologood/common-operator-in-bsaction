@@ -1,0 +1,644 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "BS API 文档",
+        "description": "海外事业部 API 定义文档",
+        "version": "1.0"
+    },
+    "host": "10.125.196.111:9006",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/",
+    "produces": [
+        "application/json"
+    ],
+    "parameters": {
+        "X-Gomeplus-Login-Token-param": {
+            "name": "X-Gomeplus-Login-Token",
+            "in": "header",
+            "description": "用于标示用户登录状态",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "X-Gomeplus-User-Id-param": {
+            "name": "X-Gomeplus-User-Id",
+            "in": "header",
+            "description": "当使用loginToken的时候，必须同时传递userId",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "X-Gomeplus-Access-Token-param": {
+            "name": "X-Gomeplus-Access-Token",
+            "in": "header",
+            "description": "用于服务认证",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "X-Gomeplus-Device-param": {
+            "name": "X-Gomeplus-Device",
+            "in": "header",
+            "description": "用于APP统计和适配",
+            "required": true,
+            "type": "string",
+            "default": "Android/5.33.2/Mi3/dsa2432212"
+        },
+        "X-Gomeplus-App-param": {
+            "name": "X-Gomeplus-App",
+            "in": "header",
+            "description": "用于APP统计和适配",
+            "required": true,
+            "type": "string",
+            "default": "001/0110105010010000"
+        },
+        "X-Gomeplus-Net-param": {
+            "name": "X-Gomeplus-Net",
+            "in": "header",
+            "description": "网络类型",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "Accept-param": {
+            "name": "Accept",
+            "in": "header",
+            "description": "可接受的数据类型",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "X-Gomeplus-Trace-Id-param": {
+            "name": "X-Gomeplus-Trace-Id",
+            "in": "header",
+            "description": "日志追踪代码",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "appVersion-param": {
+            "name": "appVersion",
+            "in": "header",
+            "description": "app版本号",
+            "required": true,
+            "type": "string",
+            "default": "1.0.0"
+        },
+        "X-Gomeplus-Unique-Device-Id-param": {
+            "name": "X-Gomeplus-Unique-Device-Id",
+            "in": "header",
+            "description": "设备唯一ID",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "X-Gomeplus-Sid-param": {
+            "name": "X-Gomeplus-Sid",
+            "in": "header",
+            "description": "统计用ID，可拼装各种ID，注意要组织好内部格式",
+            "required": false,
+            "type": "string",
+            "default": ""
+        },
+        "X-Gomeplus-Lang-param": {
+            "name": "X-Gomeplus-Lang",
+            "in": "header",
+            "description": "语言",
+            "required": true,
+            "type": "string",
+            "default": "en"
+        },
+        "X-Gomeplus-Time-Zone-param": {
+            "name": "X-Gomeplus-Time-Zone",
+            "in": "header",
+            "description": "时区",
+            "required": true,
+            "type": "string",
+            "default": " 05:30"
+        },
+        "X-Gomeplus-Region-param": {
+            "name": "X-Gomeplus-Region",
+            "in": "header",
+            "description": "地区",
+            "required": true,
+            "type": "string",
+            "default": "in"
+        }
+    },
+    "paths": {
+        "/item/item": {
+            "get": {
+                "summary": "查询商品基本信息",
+                "description": "根据商品ID查询商品信息，无需登录",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "商品ID",
+                        "type": "string",
+                        "default": "1",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "商品"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回商品信息",
+                        "schema": {
+                            "$ref": "#/definitions/itemResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "商品不存在",
+                        "schema": {
+                            "$ref": "#/definitions/itemResponse404"
+                        }
+                    },
+                    "422": {
+                        "description": "货币符号不存在",
+                        "schema": {
+                            "$ref": "#/definitions/itemResponse422"
+                        }
+                    }
+                }
+            }
+        },
+        "/item/categories": {
+            "get": {
+                "summary": "查询下一级类目列表",
+                "description": "根据父级类目ID查询下一级类目列表，无需登录",
+                "parameters": [
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "上级类目ID",
+                        "type": "string",
+                        "default": "1",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "类目"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回下级类目列表",
+                        "schema": {
+                            "$ref": "#/definitions/categoryResponse"
+                        }
+                    }
+                }
+            }
+        },
+		"/item/categoryTree": {
+            "get": {
+                "summary": "查询类目树",
+                "description": "根据父类目ID和depth查询类目树，无需登录",
+                "parameters": [
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "父类目ID",
+                        "type": "string",
+                        "default": "1",
+                        "required": true
+                    },
+					{
+                        "name": "depth",
+                        "in": "query",
+                        "description": "类目深度",
+                        "type": "integer",
+                        "default": 1,
+                        "required": false
+                    }
+                ],
+                "tags": [
+                    "类目"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回相应类目原子信息组成的树状结构",
+                        "schema": {
+                            "$ref": "#/definitions/categoryTreeResp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "itemResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "default": "",
+                    "description": "错误信息"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "default": "1",
+                            "description": "商品ID"
+                        },
+                        "name": {
+                            "type": "string",
+                            "default": "LG 19.5 inch LED - 20M38D  Monitor(Black)",
+                            "description": "商品名称"
+                        },
+                        "source": {
+                            "type": "string",
+                            "default": "flipkart",
+                            "description": "商品来源"
+                        },
+                        "mainImage": {
+                            "type": "string",
+                            "default": "http://img.fkcdn.com/image/monitor/d/3/s/lg-20m38d-b-atr-20m38d-200x200-imaegr6rtntjzd6v.jpeg",
+                            "description": "商品主图"
+                        },
+                        "outerUrl": {
+                            "type": "string",
+                            "default": "http://dl.flipkart.com/dl/lg-19-5-inch-led-20m38d-monitor/p/itmegt5ndmtvvyeh?pid=MONEGT5MZ2FATD3S&affid=shanaj123",
+                            "description": "外部网站链接"
+                        },
+                        "images": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/image"
+                            },
+                            "description": "商品轮播图"
+                        },
+                        "status": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1,
+                            "description": "商品销售状态（状态 1:上架,-1:下架）"
+                        },
+                        "discountPercentage": {
+                            "type": "string",
+                            "default": "6",
+                            "description": "折扣百分比"
+                        },
+                        "originPrice": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "default": 699900,
+                                    "description": "原价金额（单位：分）"
+                                },
+                                "currency": {
+                                    "type": "string",
+                                    "default": "INR",
+                                    "description": "货币类型"
+                                },
+                                "symbol": {
+                                    "type": "string",
+                                    "default": "₹",
+                                    "description": "货币符号（Unicode码）"
+                                },
+                                "align": {
+                                    "type": "string",
+                                    "default": "LEFT",
+                                    "description": "货币符号位置（显示在价格的左侧还是右侧：LEFT/RIGHT）"
+                                },
+                                "alternative": {
+                                    "type": "string",
+                                    "default": "Rs",
+                                    "description": "备选货币符号"
+                                }
+                            }
+                        },
+                        "sellingPrice": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "default": 654500,
+                                    "description": "售价金额（单位：分）"
+                                },
+                                "currency": {
+                                    "type": "string",
+                                    "default": "INR",
+                                    "description": "货币类型"
+                                },
+                                "symbol": {
+                                    "type": "string",
+                                    "default": "₹",
+                                    "description": "货币符号（Unicode码）"
+                                },
+                                "align": {
+                                    "type": "string",
+                                    "default": "LEFT",
+                                    "description": "货币符号位置（显示在价格的左侧还是右侧：LEFT/RIGHT）"
+                                },
+                                "alternative": {
+                                    "type": "string",
+                                    "default": "Rs",
+                                    "description": "备选货币符号"
+                                }
+                            }
+                        },
+                        "expectedCashBack": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "default": 4500,
+                                    "description": "预期返利（单位：分）"
+                                },
+                                "currency": {
+                                    "type": "string",
+                                    "default": "INR",
+                                    "description": "货币类型"
+                                },
+                                "symbol": {
+                                    "type": "string",
+                                    "default": "₹",
+                                    "description": "货币符号（Unicode码）"
+                                },
+                                "align": {
+                                    "type": "string",
+                                    "default": "LEFT",
+                                    "description": "货币符号位置（显示在价格的左侧还是右侧：LEFT/RIGHT）"
+                                },
+                                "alternative": {
+                                    "type": "string",
+                                    "default": "Rs",
+                                    "description": "备选货币符号"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "itemResponse404": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "default": "item.not.exist",
+                    "description": "错误信息"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        },
+        "itemResponse422": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "default": "currency.not.exist",
+                    "description": "错误信息"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        },
+        "image": {
+            "type": "string",
+            "default": "http://img.fkcdn.com/image/monitor/d/3/s/lg-20m38d-b-atr-20m38d-200x200-imaegr6rtntjzd6v.jpeg"
+        },
+        "categoryResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "default": "",
+                    "description": "错误信息"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "categories": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "$ref": "#/definitions/category"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "category": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "default": "14",
+                    "description": "类目ID"
+                },
+                "parentId": {
+                    "type": "string",
+                    "default": "13",
+                    "description": "父级类目ID"
+                },
+                "name": {
+                    "type": "string",
+                    "default": "Mobile Accessories",
+                    "description": "类目名称"
+                },
+                "level": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "类目级别"
+                },
+                "hasChildren": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否有子类目"
+                },
+                "createdAt": {
+                    "type": "number",
+                    "default": 1487611414000,
+                    "description": "创建时间"
+                },
+                "updatedAt": {
+                    "type": "number",
+                    "default": 1487611412000,
+                    "description": "更新时间"
+                }
+            }
+        },
+		
+		"categoryTreeResp": {
+		    "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "default": "",
+                    "description": "错误信息"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "categories": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "$ref": "#/definitions/categoryTree"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"categoryTree": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "default": "13",
+                    "description": "类目ID"
+                },
+				"parentId": {
+                    "type": "string",
+                    "default": "0",
+                    "description": "父级类目ID"
+                },
+				"name": {
+                    "type": "string",
+                    "default": "Mobiles",
+                    "description": "类目名称"
+                },
+				"level": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "类目级别"
+                },
+				"hasChildren": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否有子类目"
+                },
+				"createdAt": {
+                    "type": "number",
+                    "default": 1487611409000,
+                    "description": "创建时间"
+                },
+				"updatedAt": {
+                    "type": "number",
+                    "default": 1487611411000,
+                    "description": "更新时间"
+                },
+				"children": {
+                    "type": "array",
+					"uniqueItems": true,
+					"items": {
+						"$ref": "#/definitions/categoryTree1"
+					}
+                }
+            }
+        },
+		"categoryTree1": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "default": "14",
+                    "description": "类目ID"
+                },
+				"parentId": {
+                    "type": "string",
+                    "default": "13",
+                    "description": "父级类目ID"
+                },
+				"name": {
+                    "type": "string",
+                    "default": "Mobile Accessories",
+                    "description": "类目名称"
+                },
+				"level": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "类目级别"
+                },
+				"hasChildren": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否有子类目"
+                },
+				"createdAt": {
+                    "type": "number",
+                    "default": 1487611414000,
+                    "description": "创建时间"
+                },
+				"updatedAt": {
+                    "type": "number",
+                    "default": 1487611412000,
+                    "description": "更新时间"
+                },
+				"children": {
+                    "type": "array",
+					"uniqueItems": true,
+					"items": {
+						"$ref": "#/definitions/categoryTree2"
+					}
+                }
+            }
+        },
+		"categoryTree2": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "default": "15",
+                    "description": "类目ID"
+                },
+				"parentId": {
+                    "type": "string",
+                    "default": "14",
+                    "description": "父级类目ID"
+                },
+				"name": {
+                    "type": "string",
+                    "default": "Screen Protectors",
+                    "description": "类目名称"
+                },
+				"level": {
+                    "type": "integer",
+                    "default": 2,
+                    "description": "类目级别"
+                },
+				"hasChildren": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否有子类目"
+                },
+				"createdAt": {
+                    "type": "number",
+                    "default": 1487611414000,
+                    "description": "创建时间"
+                },
+				"updatedAt": {
+                    "type": "number",
+                    "default": 1487611418000,
+                    "description": "更新时间"
+                },
+				"children": {
+                    "type": "array",
+					"uniqueItems": true,
+					"items": {
+						      
+					}
+                }
+            }
+        }
+    }
+}
