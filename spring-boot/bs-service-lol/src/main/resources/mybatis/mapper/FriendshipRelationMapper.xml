@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="FriendshipRelation">
+
+    <sql id="tb">friendship_relation</sql>
+
+	<select id="getFriendshipList" parameterType="map" resultType="long">
+		select new_friend_user_id
+		from <include refid="tb"/>
+		<where>
+			<include refid="criteria" />
+		</where>
+	</select>
+	
+	<sql id="criteria">
+		<!-- Equal query -->
+		<if test="userId != null">AND new_user_id = #{userId}</if>
+       	<if test="friendUserId != null">AND new_friend_user_id = #{friendUserId}</if>
+       	<if test="status != null">AND status = #{status}</if>	
+    </sql>
+	 
+</mapper>

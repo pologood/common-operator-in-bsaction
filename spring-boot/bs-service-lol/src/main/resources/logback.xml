@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <!--变量声明-->
+    <property name="APP_NAME" value="bs-service-lol"/>   <!--项目名-->
+    <property name="LOG_ROOT" value="/gomeo2o/logs/venus" /><!--日志根目录-->
+    <property name="LEVEL" value="DEBUG" />                 <!--日志级别-->
+    <property name="DEFAULT_FILE" value="FILE" />           <!--日志输入目标-->
+    <property name="DEFAULT_STDOUT" value="STDOUT" />           <!--日志输入目标-->
+
+    <contextName>${APP_NAME}</contextName>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/${APP_NAME}/${APP_NAME}.log</file>
+        <encoder>
+            <pattern>## [%X{logSessionId}] [%date] [%-5p] [%thread] [%logger{50}] [%line] %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ROOT}/${APP_NAME}/${APP_NAME}-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>## [%X{logSessionId}] [%date] [%-5p] [%thread] [%logger{50}] [%line] %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${LEVEL}</level>
+        </filter>
+    </appender>
+
+    <!-- 第三方包的日志过滤级别 -->
+    <logger name="org.apache.zookeeper" level="info" />
+    <logger name="org.springframework" level="info"/>
+    <logger name="org.slf4j" level="info"/>
+    <logger name="ch.qos.logback" level="info"/>
+
+    <root level="${LEVEL}">
+        <appender-ref ref="${DEFAULT_FILE}"/>
+        <appender-ref ref="${DEFAULT_STDOUT}"/>
+    </root>
+
+</configuration>

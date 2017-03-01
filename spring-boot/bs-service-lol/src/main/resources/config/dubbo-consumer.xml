@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	
+    <dubbo:consumer timeout="${dubboTimeout}"/>
+    <dubbo:registry id="centralConsumer" address="${dubboRegistry}" protocol="zookeeper"/>
+    
+    <context:component-scan base-package="io.terminus.ecp.config.event" />
+	<context:component-scan base-package="io.terminus.ecp.config.center" />
+	
+	<!-- 事件发布工具类 -->
+    <bean class="io.terminus.ecp.common.event.CoreEventDispatcher"/>
+	
+    <!-- zookeeper观察者注册 -->
+	<bean id="zKClientFactory" class="io.terminus.zookeeper.ZKClientFactory">
+		<constructor-arg index="0" value="${zookeeperAddress}" />
+	</bean>
+	
+	<dubbo:reference version="@configuration_dubbo_version@" interface="io.terminus.ecp.config.service.ConfigReadService" id="configReadService" check="false" retries="0" registry="centralConsumer" />
+</beans>

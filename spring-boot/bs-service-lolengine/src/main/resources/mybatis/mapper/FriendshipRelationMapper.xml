@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="bs.lolengine.service.mapper.FriendshipRelation">
+
+    <resultMap id="FriendshipRelationMap" type="com.gomeplus.bs.interfaces.lolengine.entity.FriendshipRelation">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="friend_user_id" property="friendUserId"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="tb">friendship_relation</sql>
+
+    <sql id="cols_all">
+      id, <include refid="cols_exclude_id" />
+    </sql>
+
+    <sql id="cols_exclude_id">
+      user_id,new_user_id, friend_user_id,new_friend_user_id, status, create_time, update_time
+    </sql>
+
+    <sql id="vals">
+        #{userId}, #{friendUserId}, #{status}, now(), now()
+    </sql>
+    
+	<select id="getFriendshipList" parameterType="map" resultType="long">
+		select new_friend_user_id
+		from <include refid="tb"/>
+		<where>
+			<include refid="criteria" />
+		</where>
+	</select>
+	
+	<sql id="criteria">
+		<!-- Equal query -->
+		<if test="newUserId != null">AND new_user_id = #{newUserId}</if>
+       	<if test="newFriendUserId != null">AND new_friend_user_id = #{newFriendUserId}</if>
+       	<if test="status != null">AND status = #{status}</if>	
+    </sql>
+	 
+</mapper>

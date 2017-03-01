@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.gomeplus</groupId>
+		<artifactId>bs-spring-boot-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.gomeplus</groupId>
+	<artifactId>bs-service-lolengine</artifactId>
+	<version>2.0.4-SNAPSHOT</version>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+		<commons-lang.version>2.6</commons-lang.version>
+		<venus-mq-common.version>1.3.5</venus-mq-common.version>
+		<bs-common-dubbor-redis.version>1.0-SNAPSHOT</bs-common-dubbor-redis.version>
+		<!-- dubbo version -->
+        <configuration_dubbo_version>1.3.0</configuration_dubbo_version>
+		<venus-configuration-api.version>1.3</venus-configuration-api.version>
+		<bs-interfaces-lolengine.version>2.0</bs-interfaces-lolengine.version>
+ 		<bs-interfaces-lol.version>2.1</bs-interfaces-lol.version>
+		<start-class>com.gomeplus.bs.service.lolengine.LOLEngineApplication</start-class>
+	</properties>
+	<dependencies>
+
+		<!--1.框架依赖 -->
+		<dependency>
+			<groupId>com.gomeplus</groupId>
+			<artifactId>bs-framework-dubbor</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!--2.依赖提供dubbo的api -->
+		<dependency>
+			<groupId>com.gomeplus</groupId>
+			<artifactId>bs-interfaces-lolengine</artifactId>
+			<version>${bs-interfaces-lolengine.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.gomeplus</groupId>
+			<artifactId>bs-interfaces-lol</artifactId>
+			<version>${bs-interfaces-lol.version}</version>
+		</dependency>
+
+		<!--3.log -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<!--4.mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<!-- 增加mongodb支持 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gomeplus</groupId>
+			<artifactId>bs-common-dubbor-redis</artifactId>
+			<version>${bs-common-dubbor-redis.version}</version>
+		</dependency>
+
+		<!-- jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gomeplus</groupId>
+			<artifactId>bs-common-dubbor-redis</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- commons 相关包 -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.15</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+            <groupId>com.gomeplus</groupId>
+            <artifactId>bs-common-dubbor-rabbitmq</artifactId>
+            <version>1.0</version>
+        </dependency>
+		 <!-- venus-configuration-api -->
+	    <dependency>
+			<groupId>cn.com.mx</groupId>
+			<artifactId>venus-configuration-api</artifactId>
+			<version>${venus-configuration-api.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

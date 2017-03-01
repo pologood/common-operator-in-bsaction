@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<dubbo:application name="${spring.config.name}" />
+	<dubbo:registry id="central" address="${dubboRegistry}" protocol="zookeeper"/>
+	<dubbo:protocol serialization="nativejava" name="dubbo" port="${dubbo.port}"
+					threads="${dubboThreads}" heartbeat="${dubboHeartBeats}"/>
+
+	<dubbo:provider filter="-exception" />
+	
+	<!-- 这里添加提供者配置 -->
+	<!-- 
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.EntryResource" ref="entryResource"/>
+	
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.FriendEntriesResource" ref="friendEntriesResource"/>
+	
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.UserEntriesResource" ref="userEntriesResource"/>
+	
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.ReplyResource" ref="replyResource"/>
+	
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.PraiseResource" ref="praiseResource"/>
+ 	-->
+	
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.AuditLolListResource" ref="auditLolListResource" version="@lol_dubbor_version@"/>
+	
+	<dubbo:service registry="central" retries="0" interface="com.gomeplus.bs.interfaces.lol.service.AuditLolResource" ref="auditLolResource" version="@lol_dubbor_version@"/>
+	
+</beans>
