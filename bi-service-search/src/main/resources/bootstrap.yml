@@ -1,0 +1,43 @@
+spring:
+  application:
+    name : bi-service-search
+  profiles:
+      active: dev
+  cloud:
+    config:
+      #name: bi-service-search
+      failFast: true
+      discovery:
+        enabled: true
+        #serviceId: config-server
+        serviceId: bs-server-config
+
+
+---
+spring:
+  profiles: dev
+
+server:
+  port : 9009
+
+        
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://10.69.6.135:9001/eureka/
+      defaultZone: http://10.125.196.111:9001/eureka/
+---
+spring:
+  profiles: docker
+
+server:
+  port : ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}
+
+

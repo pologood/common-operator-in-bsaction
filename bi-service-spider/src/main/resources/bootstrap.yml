@@ -1,0 +1,43 @@
+spring:
+  application:
+    name : bi-service-spider
+  profiles:
+      active: dev
+  cloud:
+    config:
+      failFast: true
+      discovery:
+        enabled: true
+        serviceId: bs-server-config
+#        serviceId: config-server
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+---
+spring:
+  profiles: dev
+
+server:
+  port : 9202
+
+        
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.125.196.111:9001/eureka/
+#      defaultZone: http://10.69.6.145:9001/eureka/
+---
+spring:
+  profiles: docker
+
+server:
+  port : ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}
+
+
