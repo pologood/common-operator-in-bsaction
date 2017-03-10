@@ -4,11 +4,14 @@ package com.gomeplus.bs.service.lol.service;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import com.gomeplus.bs.service.lol.friendship.cache.FriendshipCache;
 import io.terminus.ecp.common.event.CoreEventDispatcher;
 import io.terminus.ecp.config.center.ConfigCenter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +63,9 @@ public class EntryResourceImpl implements EntryResource{
 	
 	@Autowired
     private PublishReplyDao publishReplyDao;
-	
-	
+
+	@Autowired
+	private FriendshipCache friendshipCache;
 	
 	@Autowired
 	private PraiseDao praiseDao;
@@ -75,8 +79,10 @@ public class EntryResourceImpl implements EntryResource{
 		PublishContent content = publishContentDao.findById(id);
 		//校验动态有效性
 		publishContentDao.validateContent(content, userId);
-		
-		PublishContentVo vo = publishContentDao.contentDetailToVo(content, 1, userId);
+
+		//好友列表
+		Set<Long> friends = friendshipCache.getFriendIds(userId);
+		PublishContentVo vo = publishContentDao.contentDetailToVo(content, 1, userId, friends);
 		return vo;
 	}
 

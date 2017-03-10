@@ -34,10 +34,7 @@ public class TimeLineDao extends BaseMongoDaoImpl<TimeLine> {
 	
 	@Autowired
 	private PublishContentDao publishContentDao;
-	
-	@Autowired
-	private FriendshipCache friendshipCache;
-	
+
 	@Autowired
 	private PublishReplyDao publishReplyDao;
 	
@@ -53,7 +50,7 @@ public class TimeLineDao extends BaseMongoDaoImpl<TimeLine> {
 	 * @param type 0:评论点赞数目填充 1：评论点赞列表填充
 	 * @return
 	 */
-	public PublishContentVo lineDetailToContentVo(TimeLine line, Integer type, Long userId) {
+	public PublishContentVo lineDetailToContentVo(TimeLine line, Integer type, Long userId, Set<Long> friends) {
 		PublishContentVo vo = new PublishContentVo();
 		PublishContent content = publishContentDao.findById(line.getEntryId());
 		BeanUtils.copyProperties(content, vo);
@@ -67,8 +64,6 @@ public class TimeLineDao extends BaseMongoDaoImpl<TimeLine> {
 			//点赞用户列表
 			userVoList = praiseDao.findEntryPraiseList(vo.getId());
 		} else {
-			//好友列表
-			Set<Long> friends = friendshipCache.getFriendIds(userId);
 			//将自己加入到好友列表，方便去重处理
 			friends.add(userId);
 			//评论列表

@@ -77,11 +77,19 @@ public class PublishReplyMqAnalysis {
             Boolean isSecondAudit = replyMqVo.getIsSecondAudit();
             Date replyUpdateTime = replyMqVo.getUpdateTime();
             String replyId = replyMqVo.getId();
+            Long beReplyedUserId = replyMqVo.getBeReplyedUserId();
 
             // 动态参与人集合
             Set<Long> participantSet = participantAuthority.generateParticipant(entryId);
 
             Set<Long> friendIdSet = friendshipCache.getFriendIds(userId);
+
+            // 如果有被回复者，动态参与人和被回复者取交集
+            if (null != beReplyedUserId) {
+                Set<Long> beReplyFriendIdSet = friendshipCache.getFriendIds(beReplyedUserId);
+                participantSet.retainAll(beReplyFriendIdSet);
+                participantSet.add(beReplyedUserId);
+            }
 
             // 与好友集合求交集
             participantSet.retainAll(friendIdSet);
@@ -164,6 +172,7 @@ public class PublishReplyMqAnalysis {
                         // 评论审核失败,给评论发布人发审核不通过提醒
                         Map<String, Object> extMapOwner = new HashMap<String, Object>();
                         extMapOwner.put("reminderType", "230");
+                        extMapOwner.put("title", "动态提醒");
                         extMapOwner.put("times", String.valueOf(replyUpdateTime.getTime()));
                         extMapOwner.put("entryId", entryId);
                         extMapOwner.put("entryReplyId", replyId);
@@ -174,7 +183,7 @@ public class PublishReplyMqAnalysis {
                         msgParamVoOwner.setMsgType(0);
                         msgParamVoOwner.setReceiveUserId(String.valueOf(userId));
                         msgParamVoOwner.setReceiveUserRole(0);
-                        msgParamVoOwner.setSendMessage("您发布的评论审核未通过");
+                        msgParamVoOwner.setSendMessage("您发布的评论审核未通过！");
                         msgParamVoOwner.setExtInfoMap(extMapOwner);
                         msgList.add(msgParamVoOwner);
 
@@ -205,6 +214,7 @@ public class PublishReplyMqAnalysis {
                             // 给评论发布人发审核不通过提醒
                             Map<String, Object> extMapOwner = new HashMap<String, Object>();
                             extMapOwner.put("reminderType", "230");
+                            extMapOwner.put("title", "动态提醒");
                             extMapOwner.put("times", String.valueOf(replyUpdateTime.getTime()));
                             extMapOwner.put("entryId", entryId);
                             extMapOwner.put("entryReplyId", replyId);
@@ -215,7 +225,7 @@ public class PublishReplyMqAnalysis {
                             msgParamVoOwner.setMsgType(0);
                             msgParamVoOwner.setReceiveUserId(String.valueOf(userId));
                             msgParamVoOwner.setReceiveUserRole(0);
-                            msgParamVoOwner.setSendMessage("您发布的评论审核未通过");
+                            msgParamVoOwner.setSendMessage("您发布的评论审核未通过！");
                             msgParamVoOwner.setExtInfoMap(extMapOwner);
                             msgList.add(msgParamVoOwner);
                             // 给动态参与人发评论删除覆盖消息
@@ -243,6 +253,7 @@ public class PublishReplyMqAnalysis {
                             // 先审后发，给评论发布人发审核不通过消息
                             Map<String, Object> extMapOwner = new HashMap<String, Object>();
                             extMapOwner.put("reminderType", "230");
+                            extMapOwner.put("title", "动态提醒");
                             extMapOwner.put("times", String.valueOf(replyUpdateTime.getTime()));
                             extMapOwner.put("entryId", entryId);
                             extMapOwner.put("entryReplyId", replyId);
@@ -253,7 +264,7 @@ public class PublishReplyMqAnalysis {
                             msgParamVo.setMsgType(0);
                             msgParamVo.setReceiveUserId(String.valueOf(userId));
                             msgParamVo.setReceiveUserRole(0);
-                            msgParamVo.setSendMessage("您发布的评论审核未通过");
+                            msgParamVo.setSendMessage("您发布的评论审核未通过！");
                             msgParamVo.setExtInfoMap(extMapOwner);
                             msgList.add(msgParamVo);
                         }

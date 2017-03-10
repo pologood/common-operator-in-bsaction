@@ -179,7 +179,7 @@ public class EntryEventListener implements EventListener {
                     msgParamVo.setReceiveUserId(String.valueOf(friendUserId));
                     msgParamVo.setReceiveUserRole(0);
                     msgParamVo.setIsNotCount(1);
-                    msgParamVo.setSendMessage("你的好友发新动态啦！");
+                    msgParamVo.setSendMessage("你的好友发新动态啦!");
                     msgParamVo.setExtInfoMap(extMap);
                     msgList.add(msgParamVo);
                 }
@@ -228,13 +228,14 @@ public class EntryEventListener implements EventListener {
             extMap.put("entryId", entryId);
             extMap.put("times", String.valueOf(entryUpdateTime.getTime()));
             extMap.put("reminderType", "231");
+            extMap.put("title", "动态提醒");
 
             MsgParamVo msgParamVo = new MsgParamVo();
             msgParamVo.setSendUserId(Constants.ImSysAccount.LOL_SYSTEM_NOTIFICATION);
             msgParamVo.setMsgType(0);
             msgParamVo.setReceiveUserId(String.valueOf(userId));
             msgParamVo.setReceiveUserRole(0);
-            msgParamVo.setSendMessage("您发布的动态审核未通过");
+            msgParamVo.setSendMessage("您发布的动态审核未通过！");
             msgParamVo.setExtInfoMap(extMap);
             msgList.add(msgParamVo);
             msgAlertVo.setBatchFlag("batch");

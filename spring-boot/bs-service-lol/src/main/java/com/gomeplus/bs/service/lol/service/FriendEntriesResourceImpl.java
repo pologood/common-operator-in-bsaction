@@ -5,7 +5,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import com.gomeplus.bs.service.lol.friendship.cache.FriendshipCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -29,7 +31,10 @@ public class FriendEntriesResourceImpl implements FriendEntriesResource{
 	
 	@Autowired
 	private TimeLineDao timeLineDao;
-	
+
+	@Autowired
+	private FriendshipCache friendshipCache;
+
 	/**
 	 * @Description 好友动态列表 全量
 	 * @author yanyuyu
@@ -58,9 +63,11 @@ public class FriendEntriesResourceImpl implements FriendEntriesResource{
 		List<TimeLine> timeLineList = timeLineDao.findAll(query);
 		List<PublishContentVo> contentList = new ArrayList<PublishContentVo>();
 		if(timeLineList != null && timeLineList.size() > 0) {
+			//好友列表
+			Set<Long> friends = friendshipCache.getFriendIds(userId);
 			PublishContentVo contentVo = null;
 			for(TimeLine line : timeLineList) {
-				contentVo = timeLineDao.lineDetailToContentVo(line, 1, userId);
+				contentVo = timeLineDao.lineDetailToContentVo(line, 1, userId, friends);
 				contentList.add(contentVo);
 			}
 		}

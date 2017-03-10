@@ -40,9 +40,6 @@ import com.gomeplus.bs.service.lol.util.ValidateUtil;
 public class PublishContentDao extends BaseMongoDaoImpl<PublishContent> {
 
 	@Autowired
-	private FriendshipCache friendshipCache;
-	
-	@Autowired
 	private PublishReplyDao publishReplyDao;
 	
 	@Autowired
@@ -145,14 +142,13 @@ public class PublishContentDao extends BaseMongoDaoImpl<PublishContent> {
 	/**
 	 * 动态详情信息包装：包含点赞 评论
 	 * @param type 0:评论点赞数目填充 1：评论点赞列表填充
+	 * @param friends : 好友Set集合
 	 * @return
 	 */
-	public PublishContentVo contentDetailToVo(PublishContent content, Integer type, Long userId) {
+	public PublishContentVo contentDetailToVo(PublishContent content, Integer type, Long userId, Set<Long> friends) {
 		PublishContentVo vo = new PublishContentVo();
 		BeanUtils.copyProperties(content, vo);
 		vo.setUserId(content.getOutUserId());
-		//好友列表
-		Set<Long> friends = friendshipCache.getFriendIds(userId);
 		//将自己加入到好友列表，方便去重处理
 		friends.add(userId);
 		//评论列表
