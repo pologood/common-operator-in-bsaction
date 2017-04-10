@@ -1,0 +1,52 @@
+spring:
+  application.name : bs-server-config
+  profiles.active: dev
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://gitlab.intra.gomeplus.com/config/bs-config-files.git
+        bootstrap: true
+    stream:
+      bindings:
+        springCloudBusOutput:
+          destination: springCloudBusInput
+          contentType: application/json
+#           uri: file:/github/spring-learn
+#          searchPaths: config-repo
+
+server:
+  port : 9000
+
+---
+spring:
+  profiles: dev
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9001/eureka/
+
+
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_URI}
+          force-pull: true
+#           uri: file:/github/spring-learn
+#          searchPaths: config-repo
+
+server:
+  port : ${SERVICE_PORT:8080}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}
+

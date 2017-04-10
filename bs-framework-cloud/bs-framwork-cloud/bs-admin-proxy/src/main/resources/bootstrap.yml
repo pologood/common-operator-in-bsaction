@@ -1,0 +1,50 @@
+spring:
+  application:
+    name : bs-admin-proxy
+  profiles:
+        active: dev
+  cloud:
+      config:
+        failFast: true
+        discovery:
+          enabled: true
+          serviceId: bs-server-config
+
+---
+
+spring:
+  profiles: dev
+
+server:
+  port : 9016
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.125.196.111:9001/eureka/
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - veth.*
+        - eth(1|2).*
+
+
+server:
+  port : ${SERVICE_PORT:8080}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}
+
+
